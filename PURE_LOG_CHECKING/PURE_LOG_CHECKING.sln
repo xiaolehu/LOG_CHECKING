@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.7.34221.43
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PURE_LOG_CHECKING", "PURE_LOG_CHECKING.csproj", "{A1766C0B-53FA-409A-8229-3DFD101D8667}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A1766C0B-53FA-409A-8229-3DFD101D8667}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A1766C0B-53FA-409A-8229-3DFD101D8667}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A1766C0B-53FA-409A-8229-3DFD101D8667}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A1766C0B-53FA-409A-8229-3DFD101D8667}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {31B165C1-C1D7-48EA-B9C7-8BDD2A1D6C84}
+	EndGlobalSection
+EndGlobal
