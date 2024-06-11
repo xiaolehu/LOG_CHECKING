@@ -92,6 +92,7 @@ namespace PURE_LOG_CHECKING
                 string transactionAmount = "000000001000";
                 string transactionType = "00";
                 string transactionTime = "240604";
+                string currencycode = "0978";
 
                 string arc = "3030"; // 默认值
                 string iad = "0102030405060708"; // 固定值
@@ -127,7 +128,7 @@ namespace PURE_LOG_CHECKING
                 }
 
                 // 构建输出字符串
-                string output = $"{key}: {transactionAmount}, {transactionType}, {transactionTime}, ARC: {arc}, IAD: {iad}";
+                string output = $"{key}: {transactionAmount}, {transactionType}, {currencycode}, {transactionTime}, ARC: {arc}, IAD: {iad}";
 
                 // 将结果追加到 StringBuilder
                 resultBuilder.AppendLine(output);
