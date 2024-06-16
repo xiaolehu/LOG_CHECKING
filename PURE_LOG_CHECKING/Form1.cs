@@ -422,104 +422,80 @@ namespace PURE_LOG_CHECKING
         }
         private void CompareWithExcelData(DataTable guidelines, string key, string txtFilePath, StringBuilder resultBuilder)
         {
-            // 读取TXT文件内容
             string txtContent = File.ReadAllText(txtFilePath).Replace(" ", "").Replace("\r", "").Replace("\n", "");
-
 
             string pdol_data = "";
             string gpo_data = "";
-            bool contains3030or3035 = false;
 
-            // 获取所有80AE到cla之间的数据
+
+            // 优先获取80A8到cla之间的数据
+            var gpoMatch80A8 = Regex.Match(txtContent, @"80A8(.*?)cla", RegexOptions.Singleline);
+            if (gpoMatch80A8.Success)
+            {
+                // 获取并处理匹配结果
+                string gpoSegment80A8 = gpoMatch80A8.Groups[1].Value.Replace(" ", "").Replace("cla", ""); // 清除cla
+
+                // 检查前7个字节是否包含81
+                string firstSevenBytes = gpoSegment80A8.Length >= 14 ? gpoSegment80A8.Substring(0, 10) : gpoSegment80A8;
+                if (firstSevenBytes.Contains("81"))
+                {
+                    gpoSegment80A8 = firstSevenBytes.Replace("81", "") + gpoSegment80A8.Substring(10, gpoSegment80A8.Length - 12);
+                }
+
+                if (gpoSegment80A8.Length > 16 && !firstSevenBytes.Contains("81"))
+                {
+                    gpo_data = gpoSegment80A8.Substring(10, gpoSegment80A8.Length - 12);
+                }
+                else if(gpoSegment80A8.Length > 16 && firstSevenBytes.Contains("81"))
+                {
+                    gpo_data = gpoSegment80A8.Substring(10, gpoSegment80A8.Length - 10);
+                }
+
+                // 获取9F38的数据
+                var pdolMatch9F38 = Regex.Match(txtContent, @"<li>9F38(.*?)</li>");
+                if (pdolMatch9F38.Success)
+                {
+                    string pdolSegment9F38 = pdolMatch9F38.Groups[1].Value.Replace(" ", "");
+                    if (pdolSegment9F38.Length > 2)
+                    {
+                        pdol_data = pdolSegment9F38.Substring(2);
+                    }
+                }
+            }
+         
             var gpoMatches = Regex.Matches(txtContent, @":80AE(.*?)cla", RegexOptions.Singleline);
             if (gpoMatches.Count > 0)
             {
                 foreach (Match match in gpoMatches)
                 {
-                    string gpoSegment = match.Groups[1].Value.Replace(" ", "").Replace(":","");
-                    gpo_data = gpoSegment;
+                    string gpoSegment = match.Groups[1].Value.Replace(" ", "").Replace(":", "");
+                    
                     if (gpoSegment.Contains("3030") || gpoSegment.Contains("3035"))
                     {
-                        contains3030or3035 = true;
-                      
-                        break;
-                    }
-                }
-            }
-
-
-            if (contains3030or3035)
-            {
-                if (gpo_data.Length > 12)
-                {
-                    gpo_data = gpo_data.Substring(6, gpo_data.Length - 8);
-                }
-                // 获取8D的数据
-                var pdolMatch = Regex.Match(txtContent, @"<li>8D(.*?)</li>");
-                if (pdolMatch.Success)
-                {
-                    pdol_data = pdolMatch.Groups[1].Value.Replace(" ", "");
-                    if (pdol_data.Length > 4)
-                    {
-                        pdol_data = pdol_data.Substring(2);
-                    }
-                }
-            }
-            else
-            {
-                if (gpoMatches.Count > 0 && !contains3030or3035)
-                {
-                    if (gpo_data.Length > 12)
-                    {
-                        gpo_data = gpo_data.Substring(6, gpo_data.Length - 8);
-                    }
-                    // 获取8C的数据
-                    Match pdolMatch = Regex.Match(txtContent, @"<li>8C(.*?)</li>");
-                    while (pdolMatch.Success)
-                    {
-                        pdol_data = pdolMatch.Groups[1].Value.Replace(" ", "");
-                        if (pdol_data.Length > 10)
+                        gpo_data = gpoSegment;
+                        if (gpo_data.Length > 12)
                         {
-                            pdol_data = pdol_data.Substring(2);
-                            break;
+                            gpo_data = gpo_data.Substring(6, gpo_data.Length - 8);
                         }
-                        else
+
+                        // 获取8D的数据
+                        var pdolMatch = Regex.Match(txtContent, @"<li>8D(.*?)</li>");
+                        if (pdolMatch.Success)
                         {
-                            pdolMatch = pdolMatch.NextMatch();
+                            pdol_data = pdolMatch.Groups[1].Value.Replace(" ", "");
+                            if (pdol_data.Length > 4)
+                            {
+                                pdol_data = pdol_data.Substring(2);
+                            }
                         }
                     }
                 }
+                
 
-
-                else
-                {
-                    // 获取80A8到cla之间的数据
-                    var gpoMatch80A8 = Regex.Match(txtContent, @"80A8(.*?)cla", RegexOptions.Singleline);
-                    if (gpoMatch80A8.Success)
-                    {
-                        string gpoSegment80A8 = gpoMatch80A8.Groups[1].Value.Replace(" ", "");
-                        gpoSegment80A8 = gpoSegment80A8.Replace("cla", ""); // 清除cla
-                        if (gpoSegment80A8.Length > 16)
-                        {
-                            gpo_data = gpoSegment80A8.Substring(10, gpoSegment80A8.Length - 12);
-                        }
-                    }
-
-                    // 获取9F38的数据
-                    var pdolMatch9F38 = Regex.Match(txtContent, @"<li>9F38(.*?)</li>");
-                    if (pdolMatch9F38.Success)
-                    {
-                        string pdolSegment9F38 = pdolMatch9F38.Groups[1].Value.Replace(" ", "");
-                        if (pdolSegment9F38.Length > 2)
-                        {
-                            pdol_data = pdolSegment9F38.Substring(2);
-                        }
-                    }
-                }
-
-            
-            }     // 比较TXT文件中的数据与Excel中的数据
-                  // 判断 pdol_data 和 gpo_data 是否为空
+          
+               
+            }  // 比较TXT文件中的数据与Excel中的数据
+               // 判断 pdol_data 和 gpo_data 是否为空
             if (string.IsNullOrEmpty(pdol_data) || string.IsNullOrEmpty(gpo_data))
             {
                 resultBuilder.AppendLine($"{key}: 无法检查log");

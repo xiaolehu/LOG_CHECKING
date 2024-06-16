@@ -25,3 +25,30 @@ C:\C#\Newest\PURE_LOG_CHECKING\PURE_LOG_CHECKING\bin\Debug\System.Numerics.Vecto
 C:\C#\Newest\PURE_LOG_CHECKING\PURE_LOG_CHECKING\bin\Debug\System.Runtime.CompilerServices.Unsafe.xml
 C:\C#\Newest\PURE_LOG_CHECKING\PURE_LOG_CHECKING\bin\Debug\System.Text.Encoding.CodePages.xml
 C:\C#\Newest\PURE_LOG_CHECKING\PURE_LOG_CHECKING\obj\Debug\PURE_LOG_CHECKING.csproj.CopyComplete
+C:\Users\Mean丶\Desktop\PURE LOG\LOG_CHECKING\PURE_LOG_CHECKING\bin\Debug\PURE_LOG_CHECKING.exe.config
+C:\Users\Mean丶\Desktop\PURE LOG\LOG_CHECKING\PURE_LOG_CHECKING\bin\Debug\PURE_LOG_CHECKING.exe
+C:\Users\Mean丶\Desktop\PURE LOG\LOG_CHECKING\PURE_LOG_CHECKING\bin\Debug\PURE_LOG_CHECKING.pdb
+C:\Users\Mean丶\Desktop\PURE LOG\LOG_CHECKING\PURE_LOG_CHECKING\bin\Debug\ExcelDataReader.DataSet.dll
+C:\Users\Mean丶\Desktop\PURE LOG\LOG_CHECKING\PURE_LOG_CHECKING\bin\Debug\ExcelDataReader.dll
+C:\Users\Mean丶\Desktop\PURE LOG\LOG_CHECKING\PURE_LOG_CHECKING\bin\Debug\System.Buffers.dll
+C:\Users\Mean丶\Desktop\PURE LOG\LOG_CHECKING\PURE_LOG_CHECKING\bin\Debug\System.Memory.dll
+C:\Users\Mean丶\Desktop\PURE LOG\LOG_CHECKING\PURE_LOG_CHECKING\bin\Debug\System.Numerics.Vectors.dll
+C:\Users\Mean丶\Desktop\PURE LOG\LOG_CHECKING\PURE_LOG_CHECKING\bin\Debug\System.Runtime.CompilerServices.Unsafe.dll
+C:\Users\Mean丶\Desktop\PURE LOG\LOG_CHECKING\PURE_LOG_CHECKING\bin\Debug\System.Text.Encoding.CodePages.dll
+C:\Users\Mean丶\Desktop\PURE LOG\LOG_CHECKING\PURE_LOG_CHECKING\bin\Debug\ExcelDataReader.pdb
+C:\Users\Mean丶\Desktop\PURE LOG\LOG_CHECKING\PURE_LOG_CHECKING\bin\Debug\ExcelDataReader.xml
+C:\Users\Mean丶\Desktop\PURE LOG\LOG_CHECKING\PURE_LOG_CHECKING\bin\Debug\ExcelDataReader.DataSet.pdb
+C:\Users\Mean丶\Desktop\PURE LOG\LOG_CHECKING\PURE_LOG_CHECKING\bin\Debug\ExcelDataReader.DataSet.xml
+C:\Users\Mean丶\Desktop\PURE LOG\LOG_CHECKING\PURE_LOG_CHECKING\bin\Debug\System.Buffers.xml
+C:\Users\Mean丶\Desktop\PURE LOG\LOG_CHECKING\PURE_LOG_CHECKING\bin\Debug\System.Memory.xml
+C:\Users\Mean丶\Desktop\PURE LOG\LOG_CHECKING\PURE_LOG_CHECKING\bin\Debug\System.Numerics.Vectors.xml
+C:\Users\Mean丶\Desktop\PURE LOG\LOG_CHECKING\PURE_LOG_CHECKING\bin\Debug\System.Runtime.CompilerServices.Unsafe.xml
+C:\Users\Mean丶\Desktop\PURE LOG\LOG_CHECKING\PURE_LOG_CHECKING\bin\Debug\System.Text.Encoding.CodePages.xml
+C:\Users\Mean丶\Desktop\PURE LOG\LOG_CHECKING\PURE_LOG_CHECKING\obj\Debug\PURE_LOG_CHECKING.csproj.AssemblyReference.cache
+C:\Users\Mean丶\Desktop\PURE LOG\LOG_CHECKING\PURE_LOG_CHECKING\obj\Debug\PURE_LOG_CHECKING.Form1.resources
+C:\Users\Mean丶\Desktop\PURE LOG\LOG_CHECKING\PURE_LOG_CHECKING\obj\Debug\PURE_LOG_CHECKING.Properties.Resources.resources
+C:\Users\Mean丶\Desktop\PURE LOG\LOG_CHECKING\PURE_LOG_CHECKING\obj\Debug\PURE_LOG_CHECKING.csproj.GenerateResource.cache
+C:\Users\Mean丶\Desktop\PURE LOG\LOG_CHECKING\PURE_LOG_CHECKING\obj\Debug\PURE_LOG_CHECKING.csproj.CoreCompileInputs.cache
+C:\Users\Mean丶\Desktop\PURE LOG\LOG_CHECKING\PURE_LOG_CHECKING\obj\Debug\PURE_LOG_CHECKING.csproj.CopyComplete
+C:\Users\Mean丶\Desktop\PURE LOG\LOG_CHECKING\PURE_LOG_CHECKING\obj\Debug\PURE_LOG_CHECKING.exe
+C:\Users\Mean丶\Desktop\PURE LOG\LOG_CHECKING\PURE_LOG_CHECKING\obj\Debug\PURE_LOG_CHECKING.pdb
