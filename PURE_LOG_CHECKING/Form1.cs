@@ -441,7 +441,7 @@ namespace PURE_LOG_CHECKING
             {
                 if (!extractedValue.StartsWith(expectedValue.Substring(0, 2)))
                 {
-                    resultBuilder.AppendLine($"{key}: {fieldName} mismatch, expected value is {expectedValue.Substring(0, 2)}xx, but the actual value is {extractedValue}.");
+                    resultBuilder.AppendLine($"{key}: {fieldName} mismatch, expected value is {expectedValue.Substring(0, 2)}xxxx, but the actual value is {extractedValue}.");
                 }
             }
             else
@@ -462,7 +462,7 @@ namespace PURE_LOG_CHECKING
         {
             if (!string.IsNullOrEmpty(actualValue) && expectedValue.Replace(" ", "") != actualValue)
             {
-                resultBuilder.AppendLine($"{key}: Expected {fieldName} is {expectedValue}, actual value is {actualValue}");
+                resultBuilder.AppendLine($"{key}: Expected {fieldName} is {expectedValue}, actual value is {actualValue}.");
             }
         }
         private List<(string, int)> ParsePdol(string pdol_data)
