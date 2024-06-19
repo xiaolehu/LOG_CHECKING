@@ -140,8 +140,8 @@ namespace PURE_LOG_CHECKING
                 // Create a StringBuilder to accumulate the results
                 StringBuilder resultBuilder = new StringBuilder();
 
-                // Process the guidelines table
-                ProcessGuidelines(guidelines, resultBuilder);
+                //// Process the guidelines table
+                //ProcessGuidelines(guidelines, resultBuilder);
 
                 // 选择文件夹
                 using (FolderBrowserDialog folderBrowserDialog = new FolderBrowserDialog())
@@ -195,7 +195,15 @@ namespace PURE_LOG_CHECKING
                         }
 
                         // 显示结果
-                        Result.Text = resultBuilder.ToString();
+                        if (resultBuilder.Length == 0)
+                        {
+                            Result.Text = "All Test Cases have not any problem.";
+                        }
+                        else
+                        {
+                            Result.Text = resultBuilder.ToString();
+                        }
+                        
                         MessageBox.Show("Processing completed successfully!");
                     }
                 }
@@ -221,64 +229,64 @@ namespace PURE_LOG_CHECKING
             }
         }
 
-        private void ProcessGuidelines(DataTable guidelines, StringBuilder resultBuilder)
-        {
-            // 从第二行开始遍历
-            for (int i = 1; i < guidelines.Rows.Count; i++)
-            {
-                var row = guidelines.Rows[i];
+        //private void ProcessGuidelines(DataTable guidelines, StringBuilder resultBuilder)
+        //{
+        //    // 从第二行开始遍历
+        //    for (int i = 1; i < guidelines.Rows.Count; i++)
+        //    {
+        //        var row = guidelines.Rows[i];
 
-                // 检查是否为空白行
-                if (row.ItemArray.All(field => string.IsNullOrEmpty(field?.ToString())))
-                {
-                    break;
-                }
+        //        // 检查是否为空白行
+        //        if (row.ItemArray.All(field => string.IsNullOrEmpty(field?.ToString())))
+        //        {
+        //            break;
+        //        }
 
-                string key = row[0].ToString().Replace(" ", "");
-                string instruction = row[4].ToString().Replace(" ", "");
+        //        string key = row[0].ToString().Replace(" ", "");
+        //        string instruction = row[4].ToString().Replace(" ", "");
 
-                string transactionAmount = "000000001000";
-                string transactionType = "00";
-                string transactionTime = "240604";
-                string currencyCode = "0978";
+        //        string transactionAmount = "000000001000";
+        //        string transactionType = "00";
+        //        string transactionTime = "240604";
+        //        string currencyCode = "0978";
 
-                string arc = "3030"; // 默认值
-                string iad = "0102030405060708"; // 固定值
+        //        string arc = "3030"; // 默认值
+        //        string iad = "0102030405060708"; // 固定值
 
-                if (!string.IsNullOrEmpty(instruction))
-                {
-                    var amountMatch = Regex.Match(instruction, @"Pleaseentertransactionamountas(\d+\.\d+)");
-                    if (amountMatch.Success)
-                    {
-                        decimal amount = decimal.Parse(amountMatch.Groups[1].Value);
-                        transactionAmount = ((int)(amount * 100)).ToString("D12");
-                    }
+        //        if (!string.IsNullOrEmpty(instruction))
+        //        {
+        //            var amountMatch = Regex.Match(instruction, @"Pleaseentertransactionamountas(\d+\.\d+)");
+        //            if (amountMatch.Success)
+        //            {
+        //                decimal amount = decimal.Parse(amountMatch.Groups[1].Value);
+        //                transactionAmount = ((int)(amount * 100)).ToString("D12");
+        //            }
 
-                    var typeMatch = Regex.Match(instruction, @"Transactiontypeas(\d+)");
-                    if (typeMatch.Success)
-                    {
-                        transactionType = typeMatch.Groups[1].Value;
-                    }
+        //            var typeMatch = Regex.Match(instruction, @"Transactiontypeas(\d+)");
+        //            if (typeMatch.Success)
+        //            {
+        //                transactionType = typeMatch.Groups[1].Value;
+        //            }
 
-                    var arcMatch = Regex.Match(instruction, @"PleaseconfigurehosttosendARC");
-                    if (arcMatch.Success)
-                    {
-                        var arcValueMatch = Regex.Match(instruction, @"PleaseconfigurehosttosendARC=3030");
-                        if (arcValueMatch.Success)
-                        {
-                            arc = "3030";
-                        }
-                        else
-                        {
-                            arc = "3035";
-                        }
-                    }
-                }
+        //            var arcMatch = Regex.Match(instruction, @"PleaseconfigurehosttosendARC");
+        //            if (arcMatch.Success)
+        //            {
+        //                var arcValueMatch = Regex.Match(instruction, @"PleaseconfigurehosttosendARC=3030");
+        //                if (arcValueMatch.Success)
+        //                {
+        //                    arc = "3030";
+        //                }
+        //                else
+        //                {
+        //                    arc = "3035";
+        //                }
+        //            }
+        //        }
 
-                //// 将从Excel读取的值与TXT文件进行比较
-                //resultBuilder.AppendLine($"Key: {key}, Amount: {transactionAmount}, Type: {transactionType}, Time: {transactionTime}, Code: {currencyCode}, ARC: {arc}, IAD: {iad}");
-            }
-        }
+        //        //// 将从Excel读取的值与TXT文件进行比较
+        //        //resultBuilder.AppendLine($"Key: {key}, Amount: {transactionAmount}, Type: {transactionType}, Time: {transactionTime}, Code: {currencyCode}, ARC: {arc}, IAD: {iad}");
+        //    }
+        //}
         private void ParseAndCompareData(DataTable guidelines, string key, string txtContent, string pdol_data, string gpo_data, StringBuilder resultBuilder)
         {
             var pdolValues = ParsePdol(pdol_data);
@@ -433,14 +441,14 @@ namespace PURE_LOG_CHECKING
             {
                 if (!extractedValue.StartsWith(expectedValue.Substring(0, 2)))
                 {
-                    resultBuilder.AppendLine($"{key} {fieldName} mismatch: expected {expectedValue.Substring(0, 2)}xx, but got {extractedValue}");
+                    resultBuilder.AppendLine($"{key}: {fieldName} mismatch, expected value is {expectedValue.Substring(0, 2)}xx, but the actual value is {extractedValue}.");
                 }
             }
             else
             {
                 if (extractedValue != expectedValue)
                 {
-                    resultBuilder.AppendLine($"{fieldName} mismatch: expected {expectedValue}, but got {extractedValue}");
+                    resultBuilder.AppendLine($"{key}: {fieldName} mismatch, expected {expectedValue}, but got {extractedValue}");
                 }
             }
         }
@@ -454,7 +462,7 @@ namespace PURE_LOG_CHECKING
         {
             if (!string.IsNullOrEmpty(actualValue) && expectedValue.Replace(" ", "") != actualValue)
             {
-                resultBuilder.AppendLine($"{key}: 预期{fieldName}: {expectedValue}, 实际: {actualValue}");
+                resultBuilder.AppendLine($"{key}: Expected {fieldName} is {expectedValue}, actual value is {actualValue}");
             }
         }
         private List<(string, int)> ParsePdol(string pdol_data)
@@ -618,7 +626,7 @@ namespace PURE_LOG_CHECKING
                // 判断 pdol_data 和 gpo_data 是否为空
             if (string.IsNullOrEmpty(pdol_data) || string.IsNullOrEmpty(gpo_data))
             {
-                resultBuilder.AppendLine($"{key}: 无法检查log");
+                resultBuilder.AppendLine($"{key}: Can not check the log.");
                 return;
             }
             // 解析并比较数据
