@@ -303,7 +303,8 @@ namespace PURE_LOG_CHECKING
             string currencyCode = ExtractValueFromTxt(gpoValues, "5F2A");
             string arc = ExtractValueFromTxt(gpoValues, "8A");
             string iad = ExtractValueFromTxt(gpoValues, "9F10");
-
+            // Append extracted values to the resultBuilder
+            //resultBuilder.AppendLine($"Extracted values from key: {key}:{transactionAmount}:{transactionType}:{transactionTime}:{currencyCode}");
             // 比较TXT文件中的数据与Excel中的数据
             foreach (DataRow row in guidelines.Rows)
             {
@@ -318,6 +319,45 @@ namespace PURE_LOG_CHECKING
                     string expectedArc = "3030"; // 默认值
                     string expectedIad = "0102030405060708"; // 固定值
 
+                    if (key == "PRE_PROC_42" || key == "PRE_PROC_46" || key == "PRE_PROC_50")
+                    {
+                        expectedCurrencyCode = "0840";
+                    }
+                    else if (key == "PRE_PROC_53" || key == "PRE_PROC_55" || key == "PRE_PROC_57" || key == "PRE_PROC_59" || key == "PRE_PROC_61" || key == "PRE_PROC_63" || key == "PRE_PROC_65")
+                    {
+                        expectedCurrencyCode = "0056";
+                    }
+                    else if (key == "PDOL_PROC_002")
+                    {
+                        expectedTransactionAmount = "0000001000";
+                        expectedTransactionTime = "";
+                    }
+                    else if (key == "PDOL_PROC_004" || key == "PDOL_PROC_005")
+                    {
+                        expectedTransactionAmount = "00000000001000";
+                    }
+                    else if (key == "Online_processing_038" || key == "Online_processing_039" || key == "Online_processing_083")
+                    {
+                        expectedTransactionAmount = "00001000";
+                    }
+                    else if (key == "Online_processing_040" || key == "Online_processing_085")
+                    {
+                        expectedTransactionAmount = "0000000000001000";
+                    }
+                    else if (key == "Processing_restrictions_037")
+                    {
+                        expectedTransactionTime = "991231";
+                    }
+                    else if (key == "Processing_restrictions_040")
+                    {
+                        expectedTransactionTime = "500101";
+                    }
+                    else if (transactionType == "90")
+                    {
+                        expectedTransactionTime = "000000";
+                        expectedTransactionAmount = "000000000000";
+                        expectedCurrencyCode = "0000";
+                    }
                     if (!string.IsNullOrEmpty(instruction))
                     {
                         var amountMatch = Regex.Match(instruction, @"Pleaseentertransactionamountas(\d+\.\d+)");
@@ -325,7 +365,29 @@ namespace PURE_LOG_CHECKING
                         {
                             decimal amount = decimal.Parse(amountMatch.Groups[1].Value);
                             expectedTransactionAmount = ((int)(amount * 100)).ToString("D12");
-                           
+                            if (key == "PDOL_PROC_002")
+                            {
+                                expectedTransactionAmount = "0000001000";
+                                expectedTransactionTime = "";
+                            }
+                            else if (key == "PDOL_PROC_004" || key == "PDOL_PROC_005")
+                            {
+                                expectedTransactionAmount = "00000000001000";
+                            }
+                            else if (key == "Online_processing_038" || key == "Online_processing_039" || key == "Online_processing_083")
+                            {
+                                expectedTransactionAmount = "00001000";
+                            }
+                            else if (key == "Online_processing_040" || key == "Online_processing_085")
+                            {
+                                expectedTransactionAmount = "0000000000001000";
+                            }
+                            else if (transactionType == "90")
+                            {
+                                expectedTransactionTime = "000000";
+                                expectedTransactionAmount = "000000000000";
+                                expectedCurrencyCode = "0000";
+                            }
                         }
 
                         var typeMatch = Regex.Match(instruction, @"Transactiontypeas(\d+)");
@@ -334,10 +396,10 @@ namespace PURE_LOG_CHECKING
                             expectedTransactionType = typeMatch.Groups[1].Value;
                         }
 
-                        var arcMatch = Regex.Match(instruction, @"PleaseconfigurehosttosendARC");
+                        var arcMatch = Regex.Match(instruction, @"ARC");
                         if (arcMatch.Success)
                         {
-                            var arcValueMatch = Regex.Match(instruction, @"PleaseconfigurehosttosendARC=3030");
+                            var arcValueMatch = Regex.Match(instruction, @"ARC=3030");
                             if (arcValueMatch.Success)
                             {
                                 expectedArc = "3030";
@@ -351,10 +413,34 @@ namespace PURE_LOG_CHECKING
                     // 比较逻辑
                     CompareAndAppendResult(resultBuilder, "Transaction Amount (9F02)", expectedTransactionAmount, transactionAmount, key);
                     CompareAndAppendResult(resultBuilder, "Transaction Type (9C)", expectedTransactionType, transactionType, key);
-                    CompareAndAppendResult(resultBuilder, "Transaction Date (9A)", expectedTransactionTime, transactionTime, key);
+                    if (key == "Processing_restrictions_037" || key == "Processing_restrictions_040" || transactionType == "90" || key == "PDOL_PROC_002")
+                    {
+                        CompareAndAppendResult(resultBuilder, "Transaction Date (9A)", expectedTransactionTime, transactionTime, key);
+                    }
+                    else
+                    {
+                        ValidateExtractedValue(key, "Transaction Time", transactionTime, expectedTransactionTime, resultBuilder, checkFirstTwoChars: true);
+                    }                   
                     CompareAndAppendResult(resultBuilder, "Currency Code (5F2A)", expectedCurrencyCode, currencyCode, key);
                     CompareAndAppendResult(resultBuilder, "ARC (8A)", expectedArc, arc, key);
                     CompareAndAppendResult(resultBuilder, "IAD (9F10)", expectedIad, iad, key);
+                }
+            }
+        }
+        private void ValidateExtractedValue(string key, string fieldName, string extractedValue, string expectedValue, StringBuilder resultBuilder, bool checkFirstTwoChars = false)
+        {
+            if (checkFirstTwoChars)
+            {
+                if (!extractedValue.StartsWith(expectedValue.Substring(0, 2)))
+                {
+                    resultBuilder.AppendLine($"{key} {fieldName} mismatch: expected {expectedValue.Substring(0, 2)}xx, but got {extractedValue}");
+                }
+            }
+            else
+            {
+                if (extractedValue != expectedValue)
+                {
+                    resultBuilder.AppendLine($"{fieldName} mismatch: expected {expectedValue}, but got {extractedValue}");
                 }
             }
         }
@@ -459,6 +545,40 @@ namespace PURE_LOG_CHECKING
                     if (pdolSegment9F38.Length > 2)
                     {
                         pdol_data = pdolSegment9F38.Substring(2);
+                        if (key != "PDOL_PROC_002")
+                        {
+                            if (!pdol_data.Contains("9F02") || !pdol_data.Contains("9A") || !pdol_data.Contains("9C") || !pdol_data.Contains("5F2A"))
+                            {
+                                gpo_data = "";
+                                var gpoMatch = Regex.Matches(txtContent, @":80AE(.*?)cla", RegexOptions.Singleline);
+                                if (gpoMatch.Count > 0)
+                                {
+                                    foreach (Match match in gpoMatch)
+                                    {
+                                        string gpoSegment = match.Groups[1].Value.Replace(" ", "").Replace(":", "");
+                                        if (!gpoSegment.Contains("3030") || !gpoSegment.Contains("3035"))
+                                        {
+                                            gpo_data = gpoSegment;
+                                            if (gpo_data.Length > 12)
+                                            {
+                                                gpo_data = gpo_data.Substring(6, gpo_data.Length - 8);
+                                            }// 获取8C的数据
+                                            var pdolMatch = Regex.Match(txtContent, @"<li>8C(.*?)</li>");
+                                            if (pdolMatch.Success)
+                                            {
+                                                pdol_data = pdolMatch.Groups[1].Value.Replace(" ", "");
+                                                if (pdol_data.Length > 4)
+                                                {
+                                                    pdol_data = pdol_data.Substring(2);
+                                                }
+                                            }
+                                        }
+
+                                    }
+                                }
+                            }
+
+                        }
                     }
                 }
             }
