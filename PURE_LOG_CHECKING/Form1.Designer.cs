@@ -36,7 +36,7 @@
             // button1
             // 
             this.button1.Font = new System.Drawing.Font("Perpetua Titling MT", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button1.Location = new System.Drawing.Point(339, 28);
+            this.button1.Location = new System.Drawing.Point(390, 12);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(208, 42);
             this.button1.TabIndex = 0;
@@ -46,19 +46,21 @@
             // 
             // Result
             // 
+            this.Result.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.Result.Font = new System.Drawing.Font("Calibri", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Result.Location = new System.Drawing.Point(30, 89);
+            this.Result.Location = new System.Drawing.Point(12, 76);
             this.Result.Multiline = true;
             this.Result.Name = "Result";
+            this.Result.ReadOnly = true;
             this.Result.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.Result.Size = new System.Drawing.Size(829, 434);
+            this.Result.Size = new System.Drawing.Size(964, 575);
             this.Result.TabIndex = 1;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(887, 535);
+            this.ClientSize = new System.Drawing.Size(988, 663);
             this.Controls.Add(this.Result);
             this.Controls.Add(this.button1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));

@@ -168,8 +168,8 @@ namespace PURE_LOG_CHECKING
 
                                 for (int i = 0; i < fileNameParts.Length; i++)
                                 {
-                                    // 如果遇到以"202"开头的部分，就停止并清除后面的部分
-                                    if (fileNameParts[i].StartsWith("202"))
+                                    // 如果遇到以"2024"开头的部分，就停止并清除后面的部分
+                                    if (fileNameParts[i].StartsWith("2024"))
                                     {
                                         break;
                                     }
@@ -300,7 +300,7 @@ namespace PURE_LOG_CHECKING
             }
             if (totalLength != gpo_data.Length / 2)
             {
-                resultBuilder.AppendLine("The length of PDOL Value and GPO Data Value is inconsistent");
+                resultBuilder.AppendLine($"{key}:The length of PDOL Value and GPO Data Value is inconsistent");
                 return;
             }
 
@@ -312,7 +312,7 @@ namespace PURE_LOG_CHECKING
             string arc = ExtractValueFromTxt(gpoValues, "8A");
             string iad = ExtractValueFromTxt(gpoValues, "9F10");
             // Append extracted values to the resultBuilder
-            //resultBuilder.AppendLine($"Extracted values from key: {key}:{transactionAmount}:{transactionType}:{transactionTime}:{currencyCode}");
+            resultBuilder.AppendLine($"{key}:{transactionAmount}:{transactionType}:{transactionTime}:{currencyCode}:{arc}:{iad}");
             // 比较TXT文件中的数据与Excel中的数据
             foreach (DataRow row in guidelines.Rows)
             {
@@ -360,11 +360,17 @@ namespace PURE_LOG_CHECKING
                     {
                         expectedTransactionTime = "500101";
                     }
-                    else if (transactionType == "90")
+                    else if (transactionType == "90" && transactionAmount == "000000000000" && transactionTime == "000000" && currencyCode == "0000")
                     {
                         expectedTransactionTime = "000000";
                         expectedTransactionAmount = "000000000000";
                         expectedCurrencyCode = "0000";
+                    }
+                    else if (transactionType == "90" && transactionAmount == "000000000000" && transactionTime != "000000" && currencyCode != "0000")
+                    {
+                        //expectedTransactionTime = "000000";
+                        expectedTransactionAmount = "000000000000";
+                        //expectedCurrencyCode = "0000";
                     }
                     if (!string.IsNullOrEmpty(instruction))
                     {
@@ -390,11 +396,17 @@ namespace PURE_LOG_CHECKING
                             {
                                 expectedTransactionAmount = "0000000000001000";
                             }
-                            else if (transactionType == "90")
+                            else if (transactionType == "90" && transactionAmount == "000000000000" && transactionTime == "000000" && currencyCode == "0000")
                             {
                                 expectedTransactionTime = "000000";
                                 expectedTransactionAmount = "000000000000";
                                 expectedCurrencyCode = "0000";
+                            }
+                            else if (transactionType == "90" && transactionAmount == "000000000000" && transactionTime != "000000" && currencyCode != "0000")
+                            {
+                                //expectedTransactionTime = "000000";
+                                expectedTransactionAmount = "000000000000";
+                                //expectedCurrencyCode = "0000";
                             }
                         }
 
@@ -421,7 +433,7 @@ namespace PURE_LOG_CHECKING
                     // 比较逻辑
                     CompareAndAppendResult(resultBuilder, "Transaction Amount (9F02)", expectedTransactionAmount, transactionAmount, key);
                     CompareAndAppendResult(resultBuilder, "Transaction Type (9C)", expectedTransactionType, transactionType, key);
-                    if (key == "Processing_restrictions_037" || key == "Processing_restrictions_040" || transactionType == "90" || key == "PDOL_PROC_002")
+                    if (key == "Processing_restrictions_037" || key == "Processing_restrictions_040" || transactionType == "90" && transactionTime == "000000" || key == "PDOL_PROC_002")
                     {
                         CompareAndAppendResult(resultBuilder, "Transaction Date (9A)", expectedTransactionTime, transactionTime, key);
                     }
