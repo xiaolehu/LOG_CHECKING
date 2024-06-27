@@ -312,7 +312,7 @@ namespace PURE_LOG_CHECKING
             string arc = ExtractValueFromTxt(gpoValues, "8A");
             string iad = ExtractValueFromTxt(gpoValues, "9F10");
             // Append extracted values to the resultBuilder
-            resultBuilder.AppendLine($"{key}:{transactionAmount}:{transactionType}:{transactionTime}:{currencyCode}:{arc}:{iad}");
+            //resultBuilder.AppendLine($"{key}:{transactionAmount}:{transactionType}:{transactionTime}:{currencyCode}:{arc}:{iad}");
             // 比较TXT文件中的数据与Excel中的数据
             foreach (DataRow row in guidelines.Rows)
             {
