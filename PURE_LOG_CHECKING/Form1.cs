@@ -123,11 +123,11 @@ namespace PURE_LOG_CHECKING
             {
                 // 清空文本框内容
                 Result.Clear();
-
                 // Open file dialog to select Excel file
                 OpenFileDialog openFileDialog = new OpenFileDialog
                 {
-                    Filter = "Excel Files|*.xls;*.xlsx;*.xlsm"
+                    Filter = "Excel Files|*.xls;*.xlsx;*.xlsm",
+                    Title = "Please select PURE_Contactless_Reader_Guidelines_vX.X.xlsx"
                 };
                 if (openFileDialog.ShowDialog() != DialogResult.OK)
                     throw new Exception("No Excel file selected");
@@ -146,6 +146,7 @@ namespace PURE_LOG_CHECKING
                 // 选择文件夹
                 using (FolderBrowserDialog folderBrowserDialog = new FolderBrowserDialog())
                 {
+                    folderBrowserDialog.Description = "Select a folder for storing PURE logs in txt format";
                     if (folderBrowserDialog.ShowDialog() == DialogResult.OK)
                     {
                         string selectedFolderPath = folderBrowserDialog.SelectedPath;
@@ -197,7 +198,7 @@ namespace PURE_LOG_CHECKING
                         // 显示结果
                         if (resultBuilder.Length == 0)
                         {
-                            Result.Text = "All Test Cases have not any problem.";
+                            Result.Text = "All Test Cases do not have any issues.";
                         }
                         else
                         {
