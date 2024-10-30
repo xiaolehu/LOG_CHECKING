@@ -562,7 +562,7 @@ namespace PURE_LOG_CHECKING
                 var pdolMatch9F38 = Regex.Match(txtContent, @"<li>9F38(.*?)</li>");
                 if (pdolMatch9F38.Success)
                 {
-                    string pdolSegment9F38 = pdolMatch9F38.Groups[1].Value.Replace(" ", "");
+                    string pdolSegment9F38 = pdolMatch9F38.Groups[1].Value.Replace(" ", "").Replace("ProcessingOptionsDataObjectList(PDOL)", "");
                     if (pdolSegment9F38.Length > 2)
                     {
                         pdol_data = pdolSegment9F38.Substring(2);
@@ -587,7 +587,7 @@ namespace PURE_LOG_CHECKING
                                             var pdolMatch = Regex.Match(txtContent, @"<li>8C(.*?)</li>");
                                             if (pdolMatch.Success)
                                             {
-                                                pdol_data = pdolMatch.Groups[1].Value.Replace(" ", "");
+                                                pdol_data = pdolMatch.Groups[1].Value.Replace(" ", "").Replace("CardRiskManagementDataObjectList1(CDOL1)","");
                                                 if (pdol_data.Length > 4)
                                                 {
                                                     pdol_data = pdol_data.Substring(2);
@@ -623,7 +623,7 @@ namespace PURE_LOG_CHECKING
                         var pdolMatch = Regex.Match(txtContent, @"<li>8D(.*?)</li>");
                         if (pdolMatch.Success)
                         {
-                            pdol_data = pdolMatch.Groups[1].Value.Replace(" ", "");
+                            pdol_data = pdolMatch.Groups[1].Value.Replace(" ", "").Replace("CardRiskManagementDataObjectList2(CDOL2)", "");
                             if (pdol_data.Length > 4)
                             {
                                 pdol_data = pdol_data.Substring(2);
